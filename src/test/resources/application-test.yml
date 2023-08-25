@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: edge-fqm
+  liquibase:
+    enabled: false
+folio:
+  tenant:
+    validation:
+      enabled: false
+management:
+  endpoints:
+    enabled-by-default: false
+logging:
+  level:
+    org.springframework.web: debug

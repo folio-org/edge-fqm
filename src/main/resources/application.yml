@@ -1,0 +1,46 @@
+server:
+  port: 8081
+okapi_url: http://localhost:9130
+secure_store: ephemeral
+secure_store_props: src/main/resources/ephemeral.properties
+spring:
+  application:
+    name: edge-fqm
+  main:
+    allow-bean-definition-overriding: true
+  liquibase:
+    enabled: false
+  jackson:
+    default-property-inclusion: non_empty
+    deserialization:
+      fail-on-unknown-properties: false
+      accept-single-value-as-array: true
+  mustache:
+    check-template-location: false
+folio:
+  tenant:
+    validation:
+      enabled: false
+edge:
+  security:
+    filter:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,env,httptrace
+      base-path: /admin
+  #  endpoint:
+  #    health:
+  #      show-details: always
+  #      show-components: always
+  ###################################################
+  # Disable all checks except for readiness
+  ###################################################
+  health:
+    defaults:
+      enabled: false
+    readinessstate:
+      enabled: true
+debug: false
