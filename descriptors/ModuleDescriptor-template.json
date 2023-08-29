@@ -1,12 +1,6 @@
 {
   "id": "@artifactId@-@version@",
   "name": "Edge FQM API",
-  "provides": [
-    {
-      "id": "edge-fqm",
-      "version": "1.0"
-    }
-  ],
   "permissionSets" : [],
   "requires": [
     {
