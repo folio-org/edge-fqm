@@ -35,8 +35,14 @@
       src/main/java/org/folio/fqm/edge/client/config/OkapiFeignClientErrorWrapperException.java
 
       <!-- Boilerplate code with no logic -->
+      src/main/java/org/folio/fqm/edge/client/QueryClient.java
+      src/main/java/org/folio/fqm/edge/client/EntityTypesClient.java
+      src/main/java/org/folio/fqm/edge/controller/EdgeFqmTenantController.java
       src/main/java/org/folio/fqm/edge/controller/EntityTypesController.java
       src/main/java/org/folio/fqm/edge/controller/QueryController.java
+      src/main/java/org/folio/fqm/edge/service/EntityTypesService.java
+      src/main/java/org/folio/fqm/edge/service/QueryService.java
+
     </sonar.exclusions>
     <argLine/>
 
