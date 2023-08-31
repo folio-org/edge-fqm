@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.folio.fqm.edge.service.QueryService;
+import org.folio.querytool.domain.dto.ContentsRequest;
 import org.folio.querytool.domain.dto.QueryDetails;
 import org.folio.querytool.domain.dto.QueryIdentifier;
 import org.folio.querytool.domain.dto.ResultsetPage;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -42,5 +44,15 @@ public class QueryController implements FqlQueryApi {
   @Override
   public ResponseEntity<QueryIdentifier> runFqlQueryAsync(@Valid SubmitQuery submitQuery) {
     return ResponseEntity.ok(queryService.runFqlQueryAsync(submitQuery));
+  }
+
+  @Override
+  public ResponseEntity<List<Map<String, Object>>> getContents(ContentsRequest contentsRequest) {
+    return ResponseEntity.ok(queryService.getContents(contentsRequest));
+  }
+
+  @Override
+  public ResponseEntity<List<UUID>> getSortedIds(UUID queryId, Integer offset, Integer limit) {
+    return ResponseEntity.ok(queryService.getSortedIds(queryId, offset, limit));
   }
 }

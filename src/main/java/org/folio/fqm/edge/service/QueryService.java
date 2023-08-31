@@ -3,6 +3,7 @@ package org.folio.fqm.edge.service;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.folio.fqm.edge.client.QueryClient;
+import org.folio.querytool.domain.dto.ContentsRequest;
 import org.folio.querytool.domain.dto.QueryDetails;
 import org.folio.querytool.domain.dto.QueryIdentifier;
 import org.folio.querytool.domain.dto.ResultsetPage;
@@ -10,6 +11,7 @@ import org.folio.querytool.domain.dto.SubmitQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -32,5 +34,13 @@ public class QueryService {
 
   public QueryIdentifier runFqlQueryAsync(SubmitQuery submitQuery) {
     return queryClient.runFqlQueryAsync(submitQuery);
+  }
+
+  public List<Map<String, Object>> getContents(ContentsRequest contentsRequest) {
+    return queryClient.getContents(contentsRequest);
+  }
+
+  public List<UUID> getSortedIds(UUID queryId, Integer offset, Integer limit) {
+    return queryClient.getSortedIds(queryId, offset, limit);
   }
 }
