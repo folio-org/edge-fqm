@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -73,7 +76,7 @@ class EdgeRequestHandlingTest {
       .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
       .setBody(responseBody));
     var response = mockMvc.perform(get("/query?query={query}&entityTypeId={entityTypeId}&apiKey={apiKey}", query, entityTypeId, apiKey)
-      .contentType(MediaType.APPLICATION_JSON))
+        .contentType(MediaType.APPLICATION_JSON))
       .andReturn()
       .getResponse();
 
@@ -102,6 +105,8 @@ class EdgeRequestHandlingTest {
     // When mod-fqm-manager responds with an error
     mockFqmServer.enqueue(new MockResponse()
       .setResponseCode(fqmResponseCode)
+      .setHeader(XOkapiHeaders.OKAPI_HEADERS_PREFIX + "fake-header", "fake-value")
+      .setHeader("another-fake-header", "another-fake-value")
       .setBody(fqmResponseBody));
     var response = mockMvc.perform(get("/query?query={query}&entityTypeId={entityTypeId}&apiKey={apiKey}", query, entityTypeId, apiKey)
       .contentType(MediaType.APPLICATION_JSON))
@@ -111,6 +116,9 @@ class EdgeRequestHandlingTest {
     // Then the edge API response should contain the error message from mod-fqm-manager
     assertThat(response.getStatus()).isEqualTo(fqmResponseCode);
     assertThat(response.getContentAsString()).isEqualTo(fqmResponseBody);
+    // Also, the non-okapi headers should make it through, while any okapi headers should not
+    assertThat(response.getHeader("another-fake-header")).isEqualTo("another-fake-value");
+    assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
   }
 
   private void setUpMockAuthnClient(String tenant, String token) {

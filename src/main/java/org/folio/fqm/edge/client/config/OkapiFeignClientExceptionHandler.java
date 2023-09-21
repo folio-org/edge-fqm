@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * Overall flow here, since it's not very obvious: Errors from Feign clients configured with
  * {@link OkapiFeignClientConfig} are turned into instances of {@link OkapiFeignClientErrorWrapperException}. This class
- * then handles those, convering them into {@link ResponseEntity} objects that get returned to the original caller.
+ * then handles those, converting them into {@link ResponseEntity} objects that get returned to the original caller.
  */
 @ControllerAdvice
 public class OkapiFeignClientExceptionHandler extends ResponseEntityExceptionHandler {
@@ -26,7 +26,7 @@ public class OkapiFeignClientExceptionHandler extends ResponseEntityExceptionHan
     var headers = new HttpHeaders();
     for (Map.Entry<String, Collection<String>> header : e.getHeaders().entrySet()) {
       // Copy all the headers except any Okapi headers, to prevent internal FOLIO details from leaking
-      if (header.getKey().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX)) {
+      if (!header.getKey().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX)) {
         headers.addAll(header.getKey(), new ArrayList<>(header.getValue()));
       }
     }
