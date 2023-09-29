@@ -26,7 +26,7 @@ public class QueryController implements FqlQueryApi {
   private final QueryService queryService;
 
   @Override
-  public ResponseEntity<ResultsetPage> runFqlQuery(@NotNull String query, @NotNull UUID entityTypeId, List<String> fields, UUID afterId, Integer limit) {
+  public ResponseEntity<ResultsetPage> runFqlQuery(String query, UUID entityTypeId, List<String> fields, UUID afterId, Integer limit) {
     return ResponseEntity.ok(queryService.runFqlQuery(query, entityTypeId, fields, afterId, limit));
   }
 
@@ -37,12 +37,12 @@ public class QueryController implements FqlQueryApi {
   }
 
   @Override
-  public ResponseEntity<QueryDetails> getQuery(UUID queryId, @Valid Boolean includeResults, @Min(0L) @Max(2147483647L) @Valid Integer offset, @Min(1L) @Max(2147483647L) @Valid Integer limit) {
+  public ResponseEntity<QueryDetails> getQuery(UUID queryId, Boolean includeResults, Integer offset, Integer limit) {
     return ResponseEntity.ok(queryService.getQuery(queryId, includeResults, offset, limit));
   }
 
   @Override
-  public ResponseEntity<QueryIdentifier> runFqlQueryAsync(@Valid SubmitQuery submitQuery) {
+  public ResponseEntity<QueryIdentifier> runFqlQueryAsync(SubmitQuery submitQuery) {
     return ResponseEntity.ok(queryService.runFqlQueryAsync(submitQuery));
   }
 

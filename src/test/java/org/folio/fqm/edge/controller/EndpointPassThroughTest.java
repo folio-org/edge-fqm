@@ -44,12 +44,12 @@ class EndpointPassThroughTest {
   void testEntityTypesPassThrough() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     // Skip getRequests() in the entity type controller, since it's only there to resolve a name conflict in its
     // two parent interfaces
-    verifyPassThrough(entityTypesController, entityTypesService, entityTypesClient, "getRequest");
+    verifyPassThrough(EntityTypesController.class, entityTypesController, entityTypesService, entityTypesClient, "getRequest");
   }
 
   @Test
   void testQueryPassThrough() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    verifyPassThrough(queryController, queryService, queryClient);
+    verifyPassThrough(QueryController.class, queryController, queryService, queryClient);
   }
 
   /**
@@ -59,16 +59,19 @@ class EndpointPassThroughTest {
    * in, if a method exists in the controller, then both the corresponding service and client should have methods with the
    * same signature.
    *
+   * @param controllerClass - The concrete class for the controller; this is needed due to Spring's tendency to wrap classes, making it difficult to see what methods are actually overridden
    * @param controller      - The controller to verify
    * @param service         - The backing service for the controller
    * @param client          - The underlying client that the service uses to retrieve data
    * @param methodsToIgnore - Method names to skip
    */
-  private <C, S, R> void verifyPassThrough(C controller, S service, R client, String... methodsToIgnore) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+  private <C, S, R> void verifyPassThrough(Class<C> controllerClass, C controller,
+                                           S service,
+                                           R client, String... methodsToIgnore) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     var ignoredMethods = Set.of(methodsToIgnore);
-    for (var controllerMethod : controller.getClass().getMethods()) {
+    for (var controllerMethod : controllerClass.getMethods()) {
       // Skip any non - overridden inherited methods, along with any explicitly skipped ones
-      if (!controllerMethod.getDeclaringClass().equals(controller.getClass()) || ignoredMethods.contains(controllerMethod.getName())) {
+      if (!controllerMethod.getDeclaringClass().equals(controllerClass) || ignoredMethods.contains(controllerMethod.getName())) {
         continue;
       }
       // Given a controller, service, and client method

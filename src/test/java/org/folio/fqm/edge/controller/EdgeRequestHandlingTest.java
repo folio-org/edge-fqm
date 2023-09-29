@@ -3,9 +3,10 @@ package org.folio.fqm.edge.controller;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.folio.edge.core.utils.ApiKeyUtils;
-import org.folio.edgecommonspring.client.AuthnClient;
 import org.folio.edgecommonspring.client.EnrichUrlClient;
 import org.folio.spring.integration.XOkapiHeaders;
+import org.folio.spring.model.UserToken;
+import org.folio.spring.service.SystemUserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -40,7 +40,7 @@ class EdgeRequestHandlingTest {
   private EnrichUrlClient enrichUrlClient;
 
   @MockBean
-  private AuthnClient authnClient;
+  private SystemUserService systemUserService;
 
   private MockWebServer mockFqmServer;
 
@@ -62,12 +62,13 @@ class EdgeRequestHandlingTest {
     // Given
     String tenant = "diku",
       username = "diku",
+      password = "diku",
       token = "This is totally a real token. For real!",
       query = "The best query";
     var entityTypeId = UUID.randomUUID().toString();
     var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
     var responseBody = ""; // Arbitrary string. We don't care about the actual content and an empty string is easy
-    setUpMockAuthnClient(tenant, token);
+    setUpMockAuthnClient(tenant, token, username, password);
 
     // When we make a valid request to mod-fqm-manager with the API key set
     // Note: /query is an arbitrary API endpoint that does the API key -> header conversion and forwards the request
@@ -94,13 +95,14 @@ class EdgeRequestHandlingTest {
     // Given
     String tenant = "diku",
       username = "diku",
+      password = "diku",
       token = "This is totally a real token. For real!",
       query = "The best query";
     var entityTypeId = UUID.randomUUID().toString();
     var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
     var fqmResponseCode = HttpStatus.I_AM_A_TEAPOT.value(); // Arbitrary HTTP error status code
     var fqmResponseBody = "I'm a teapot, not an FQM manager!";
-    setUpMockAuthnClient(tenant, token);
+    setUpMockAuthnClient(tenant, token, username, password);
 
     // When mod-fqm-manager responds with an error
     mockFqmServer.enqueue(new MockResponse()
@@ -121,12 +123,8 @@ class EdgeRequestHandlingTest {
     assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
   }
 
-  private void setUpMockAuthnClient(String tenant, String token) {
-    var responseHeaders = new HttpHeaders() {{
-      add(XOkapiHeaders.TENANT, tenant);
-      add(XOkapiHeaders.TOKEN, token);
-    }};
-    when(authnClient.getApiKey(any(), eq(tenant)))
-      .thenReturn(new ResponseEntity<>(null, responseHeaders, HttpStatus.OK));
+  private void setUpMockAuthnClient(String tenant, String token, String username, String password) {
+    when(systemUserService.authSystemUser(tenant, username, password))
+            .thenReturn(new UserToken(token, Instant.now().plus(1, TimeUnit.HOURS.toChronoUnit())));
   }
 }
