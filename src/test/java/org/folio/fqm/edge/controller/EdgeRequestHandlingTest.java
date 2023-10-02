@@ -87,6 +87,7 @@ class EdgeRequestHandlingTest {
     assertThat(headers.get(XOkapiHeaders.TENANT)).isEqualTo(tenant);
     assertThat(headers.get(XOkapiHeaders.TOKEN)).isEqualTo(token);
     assertThat(headers.get(XOkapiHeaders.USER_ID)).isNull();
+    assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
     assertThat(response.getContentAsString()).isEqualTo(responseBody);
   }
 
@@ -108,7 +109,7 @@ class EdgeRequestHandlingTest {
     mockFqmServer.enqueue(new MockResponse()
       .setResponseCode(fqmResponseCode)
       .setHeader(XOkapiHeaders.OKAPI_HEADERS_PREFIX + "fake-header", "fake-value")
-      .setHeader("another-fake-header", "another-fake-value")
+      .setHeader(HttpHeaders.LAST_MODIFIED, Instant.ofEpochSecond(0xBABEL)) // Arbitrary white-listed header with an arbitrary timestamp
       .setBody(fqmResponseBody));
     var response = mockMvc.perform(get("/query?query={query}&entityTypeId={entityTypeId}&apiKey={apiKey}", query, entityTypeId, apiKey)
       .contentType(MediaType.APPLICATION_JSON))
@@ -118,8 +119,8 @@ class EdgeRequestHandlingTest {
     // Then the edge API response should contain the error message from mod-fqm-manager
     assertThat(response.getStatus()).isEqualTo(fqmResponseCode);
     assertThat(response.getContentAsString()).isEqualTo(fqmResponseBody);
-    // Also, the non-okapi headers should make it through, while any okapi headers should not
-    assertThat(response.getHeader("another-fake-header")).isEqualTo("another-fake-value");
+    // Also, the non-okapi (and white-listed) headers should make it through, while any okapi headers should not
+    assertThat(response.getHeader(HttpHeaders.LAST_MODIFIED)).isEqualTo(Instant.ofEpochSecond(0xBABEL).toString());
     assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
   }
 
