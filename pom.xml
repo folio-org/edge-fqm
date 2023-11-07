@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.2</version>
+    <version>3.1.5</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
   <groupId>org.folio</groupId>
@@ -47,6 +47,9 @@
 
     <!-- runtime dependencies -->
     <folio-spring-base.version>7.1.2</folio-spring-base.version>
+    <!-- fix okio-jvm Denial of Service (DoS) https://nvd.nist.gov/vuln/detail/CVE-2023-3635
+         remove okio-jvm dependency after upgrading to folio-spring-base >= 7.2.2 -->
+    <okio-jvm.version>3.4.0</okio-jvm.version>
     <folio-query-tool-metadata.version>1.0.0</folio-query-tool-metadata.version>
     <edge-common-spring.version>2.3.0</edge-common-spring.version>
     <openapi-generator.version>6.2.1</openapi-generator.version>
@@ -72,6 +75,13 @@
           <artifactId>spring-boot-starter-data-jpa</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <!-- fix okio-jvm Denial of Service (DoS) https://nvd.nist.gov/vuln/detail/CVE-2023-3635
+           remove okio-jvm dependency after upgrading to folio-spring-base >= 7.2.2 -->
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio-jvm</artifactId>
+      <version>${okio-jvm.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
