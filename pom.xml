@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.2</version>
+    <version>3.1.5</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
   <groupId>org.folio</groupId>
@@ -408,9 +408,9 @@
   </distributionManagement>
 
   <scm>
-    <url>https://github.com/FOLIO-EIS/${project.artifactId}</url>
-    <connection>scm:git:git://github.com/FOLIO-EIS/${project.artifactId}.git</connection>
-    <developerConnection>scm:git:git@github.com:FOLIO-EIS/${project.artifactId}.git</developerConnection>
+    <url>https://github.com/folio-org/${project.artifactId}</url>
+    <connection>scm:git:git://github.com/folio-org/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:folio-org/${project.artifactId}.git</developerConnection>
     <tag>v1.0.0</tag>
   </scm>
 
