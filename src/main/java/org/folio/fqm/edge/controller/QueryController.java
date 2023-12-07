@@ -12,6 +12,7 @@ import org.folio.querytool.domain.dto.QueryIdentifier;
 import org.folio.querytool.domain.dto.ResultsetPage;
 import org.folio.querytool.domain.dto.SubmitQuery;
 import org.folio.querytool.rest.resource.FqlQueryApi;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,7 +44,7 @@ public class QueryController implements FqlQueryApi {
 
   @Override
   public ResponseEntity<QueryIdentifier> runFqlQueryAsync(SubmitQuery submitQuery) {
-    return ResponseEntity.ok(queryService.runFqlQueryAsync(submitQuery));
+    return new ResponseEntity<>(queryService.runFqlQueryAsync(submitQuery), HttpStatus.CREATED);
   }
 
   @Override

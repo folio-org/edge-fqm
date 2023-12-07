@@ -61,8 +61,8 @@ class EdgeRequestHandlingTest {
   void shouldConvertApiKeyToHeaders() throws Exception {
     // Given
     String tenant = "diku",
-      username = "diku",
-      password = "diku",
+      username = "diku_admin",
+      password = "admin",
       token = "This is totally a real token. For real!",
       query = "The best query";
     var entityTypeId = UUID.randomUUID().toString();
@@ -95,8 +95,8 @@ class EdgeRequestHandlingTest {
   void shouldReturnClientErrors() throws Exception {
     // Given
     String tenant = "diku",
-      username = "diku",
-      password = "diku",
+      username = "diku_admin",
+      password = "admin",
       token = "This is totally a real token. For real!",
       query = "The best query";
     var entityTypeId = UUID.randomUUID().toString();
