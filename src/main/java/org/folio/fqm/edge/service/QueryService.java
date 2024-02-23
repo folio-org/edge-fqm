@@ -20,7 +20,7 @@ public class QueryService {
 
   private final QueryClient queryClient;
 
-  public ResultsetPage runFqlQuery(@NotNull String query, @NotNull UUID entityTypeId, List<String> fields, UUID afterId, Integer limit) {
+  public ResultsetPage runFqlQuery(@NotNull String query, @NotNull UUID entityTypeId, List<String> fields, List<String> afterId, Integer limit) {
     return queryClient.runFqlQuery(query, entityTypeId, fields, afterId, limit);
   }
 
@@ -40,7 +40,7 @@ public class QueryService {
     return queryClient.getContents(contentsRequest);
   }
 
-  public List<UUID> getSortedIds(UUID queryId, Integer offset, Integer limit) {
+  public List<List<String>> getSortedIds(UUID queryId, Integer offset, Integer limit) {
     return queryClient.getSortedIds(queryId, offset, limit);
   }
 }

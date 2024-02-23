@@ -21,7 +21,7 @@ public interface QueryClient {
   ResultsetPage runFqlQuery(@RequestParam @NotNull String query,
                             @RequestParam @NotNull UUID entityTypeId,
                             @RequestParam List<String> fields,
-                            @RequestParam UUID afterId,
+                            @RequestParam List<String> afterId,
                             @RequestParam Integer limit);
 
   @DeleteMapping(path = "/{queryId}")
@@ -40,7 +40,7 @@ public interface QueryClient {
     List<Map<String, Object>> getContents(ContentsRequest contentsRequest);
 
   @GetMapping(path = "/{queryId}/sortedIds")
-  List<UUID> getSortedIds(@PathVariable UUID queryId,
+  List<List<String>> getSortedIds(@PathVariable UUID queryId,
                           @RequestParam Integer offset,
                           @RequestParam Integer limit);
 }
