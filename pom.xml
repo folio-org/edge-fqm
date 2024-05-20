@@ -59,6 +59,11 @@
     <testcontainers.version>1.17.6</testcontainers.version>
     <edge-common.version>4.5.2</edge-common.version>
     <mockwebserver.version>4.11.0</mockwebserver.version>
+    <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+    <bc-fips.version>1.0.2.5</bc-fips.version>
+    <bcpkix-fips.version>1.0.7</bcpkix-fips.version>
+    <bctls-fips.version>1.0.19</bctls-fips.version>
+    <jfixture.version>2.7.2</jfixture.version>
   </properties>
 
   <dependencies>
@@ -84,7 +89,7 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>8.0.1.Final</version>
+      <version>${hibernate-validator.version}</version>
     </dependency>
     <dependency>
       <groupId>org.folio</groupId>
@@ -155,17 +160,17 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bc-fips</artifactId>
-      <version>1.0.2.5</version>
+      <version>${bc-fips.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcpkix-fips</artifactId>
-      <version>1.0.7</version>
+      <version>${bcpkix-fips.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bctls-fips</artifactId>
-      <version>1.0.19</version>
+      <version>${bctls-fips.version}</version>
     </dependency>
 
     <!-- Test dependencies -->
@@ -211,7 +216,7 @@
     <dependency>
       <groupId>com.flextrade.jfixture</groupId>
       <artifactId>jfixture</artifactId>
-      <version>2.7.2</version>
+      <version>${jfixture.version}</version>
       <scope>test</scope>
     </dependency>
 
