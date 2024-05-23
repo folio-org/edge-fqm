@@ -3,7 +3,7 @@ package org.folio.fqm.edge.controller;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.folio.edge.core.utils.ApiKeyUtils;
-import org.folio.edgecommonspring.client.EnrichUrlClient;
+import org.folio.edgecommonspring.client.EdgeFeignClientProperties;
 import org.folio.spring.integration.XOkapiHeaders;
 import org.folio.spring.model.UserToken;
 import org.folio.spring.service.SystemUserService;
@@ -37,7 +37,7 @@ class EdgeRequestHandlingTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private EnrichUrlClient enrichUrlClient;
+  private EdgeFeignClientProperties properties;
 
   @MockBean
   private SystemUserService systemUserService;
@@ -49,7 +49,7 @@ class EdgeRequestHandlingTest {
     // Set up a dummy response from the mock server so that QueryClient can make requests
     mockFqmServer = new MockWebServer();
     mockFqmServer.start();
-    ReflectionTestUtils.setField(enrichUrlClient, "okapiUrl", "http://localhost:" + mockFqmServer.getPort());
+    ReflectionTestUtils.setField(properties, "okapiUrl", "http://localhost:" + mockFqmServer.getPort());
   }
 
   @AfterEach
