@@ -1,10 +1,13 @@
 # v2.0.x
 
+## v2.0.1
+-  Add support for TLS ([EDGFQM-18](https://folio-org.atlassian.net/browse/EDGFQM-18) and [EDGFQM-19](https://folio-org.atlassian.net/browse/EDGFQM-19))
+
 ## v2.0.0
-- Fix edge-fqm response codes ([EDGFQM-14]([https://folio-org.atlassian.net/browse/EDGFQM-14]))
+- Fix edge-fqm response codes ([EDGFQM-14](https://folio-org.atlassian.net/browse/EDGFQM-14))
 - Update folio-query-tool-metadata to 2.0.0
-- Add support for composite record IDs ([MODFQMMGR-137]([https://folio-org.atlassian.net/browse/MODFQMMGR-137]))
-- Bump Spring Boot version from 3.1.2 to 3.2.3, along with the related FOLIO libs ([EDGEFQM-16]([https://folio-org.atlassian.net/browse/EDGEFQM-16]))
+- Add support for composite record IDs ([MODFQMMGR-137](https://folio-org.atlassian.net/browse/MODFQMMGR-137))
+- Bump Spring Boot version from 3.1.2 to 3.2.3, along with the related FOLIO libs ([EDGFQM-16](https://folio-org.atlassian.net/browse/EDGFQM-16))
 
 # v1.0.x
 
