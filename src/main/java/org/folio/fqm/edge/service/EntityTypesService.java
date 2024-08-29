@@ -17,7 +17,7 @@ public class EntityTypesService {
   private final EntityTypesClient entityTypesClient;
 
   public List<EntityTypeSummary> getEntityTypeSummary(List<UUID> ids) {
-    return entityTypesClient.getEntityTypeSummary(ids);
+    return entityTypesClient.getEntityTypeSummary(ids).entityTypes();
   }
 
   public ColumnValues getColumnValues(UUID entityTypeId, String columnName, String search) {
