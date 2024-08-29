@@ -31,8 +31,8 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
   }
 
   @Override
-  public ResponseEntity<EntityType> getEntityType(UUID entityTypeId) {
-    return ResponseEntity.ok(entityTypesService.getEntityType(entityTypeId));
+  public ResponseEntity<EntityType> getEntityType(UUID entityTypeId, Boolean includeHidden) {
+    return ResponseEntity.ok(entityTypesService.getEntityType(entityTypeId, includeHidden));
   }
 
   @Override

@@ -24,7 +24,7 @@ public class EntityTypesService {
     return entityTypesClient.getColumnValues(entityTypeId, columnName, search);
   }
 
-  public EntityType getEntityType(UUID entityTypeId) {
-    return entityTypesClient.getEntityType(entityTypeId);
+  public EntityType getEntityType(UUID entityTypeId, Boolean includeHidden) {
+    return entityTypesClient.getEntityType(entityTypeId, includeHidden);
   }
 }
