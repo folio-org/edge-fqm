@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface EntityTypesClient {
 
   @GetMapping
-  List<EntityTypeSummary> getEntityTypeSummary(@RequestParam List<UUID> ids);
+  EntityTypeSummaryResponse getEntityTypeSummary(@RequestParam List<UUID> ids);
 
   @GetMapping(path = "/{entityTypeId}/columns/{columnName}/values")
   ColumnValues getColumnValues(@PathVariable UUID entityTypeId,
@@ -24,5 +24,9 @@ public interface EntityTypesClient {
                                @RequestParam String search);
 
   @GetMapping(path = "/{entityTypeId}")
-  EntityType getEntityType(@PathVariable UUID entityTypeId);
+  EntityType getEntityType(@PathVariable UUID entityTypeId, @RequestParam Boolean includeHidden);
+
+  // not yet mirrored by edge-fqm, so we will temporarily add a record.
+  // will be properly added to openapi spec in EDGFQM-26
+  record EntityTypeSummaryResponse(List<EntityTypeSummary> entityTypes, String _version) {}
 }

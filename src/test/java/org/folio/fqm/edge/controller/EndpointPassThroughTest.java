@@ -42,9 +42,10 @@ class EndpointPassThroughTest {
 
   @Test
   void testEntityTypesPassThrough() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    // Skip getRequests() in the entity type controller, since it's only there to resolve a name conflict in its
-    // two parent interfaces
-    verifyPassThrough(EntityTypesController.class, entityTypesController, entityTypesService, entityTypesClient, "getRequest");
+    // Skip getRequests() in the entity type controller, since it's only there to resolve a name conflict in its two parent interfaces
+    // Skip getEntityTypeSummary() since it's not yet mirrored by edge-fqm (see EDGFQM-26)
+    // TODO: Add getEntityTypeSummary() back in once it's mirrored by edge-fqm
+    verifyPassThrough(EntityTypesController.class, entityTypesController, entityTypesService, entityTypesClient, "getRequest", "getEntityTypeSummary");
   }
 
   @Test
