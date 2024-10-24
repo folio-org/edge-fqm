@@ -1,7 +1,7 @@
 package org.folio.fqm.edge.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.folio.fqm.edge.domain.dto.EntityTypeSummary;
+import org.folio.fqm.edge.domain.dto.EntityTypeSummaries;
 import org.folio.fqm.edge.service.EntityTypesService;
 import org.folio.querytool.domain.dto.ColumnValues;
 import org.folio.querytool.domain.dto.EntityType;
@@ -21,8 +21,8 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
   private final EntityTypesService entityTypesService;
 
   @Override
-  public ResponseEntity<List<EntityTypeSummary>> getEntityTypeSummary(List<UUID> ids) {
-    return ResponseEntity.ok(entityTypesService.getEntityTypeSummary(ids));
+  public ResponseEntity<EntityTypeSummaries> getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible) {
+    return ResponseEntity.ok(entityTypesService.getEntityTypeSummary(ids, includeInaccessible));
   }
 
   @Override

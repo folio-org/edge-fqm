@@ -4,7 +4,7 @@ import org.folio.fqm.edge.client.config.OkapiFeignClientConfig;
 import org.folio.querytool.domain.dto.ColumnValues;
 import org.folio.querytool.domain.dto.EntityType;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.folio.fqm.edge.domain.dto.EntityTypeSummary;
+import org.folio.fqm.edge.domain.dto.EntityTypeSummaries;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface EntityTypesClient {
 
   @GetMapping
-  EntityTypeSummaryResponse getEntityTypeSummary(@RequestParam List<UUID> ids);
+  EntityTypeSummaries getEntityTypeSummary(@RequestParam List<UUID> ids, @RequestParam Boolean includeInaccessible);
 
   @GetMapping(path = "/{entityTypeId}/columns/{columnName}/values")
   ColumnValues getColumnValues(@PathVariable UUID entityTypeId,
@@ -26,7 +26,4 @@ public interface EntityTypesClient {
   @GetMapping(path = "/{entityTypeId}")
   EntityType getEntityType(@PathVariable UUID entityTypeId, @RequestParam Boolean includeHidden);
 
-  // not yet mirrored by edge-fqm, so we will temporarily add a record.
-  // will be properly added to openapi spec in EDGFQM-26
-  record EntityTypeSummaryResponse(List<EntityTypeSummary> entityTypes, String _version) {}
 }

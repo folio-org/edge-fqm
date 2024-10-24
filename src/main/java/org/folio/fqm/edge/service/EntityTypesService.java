@@ -2,7 +2,7 @@ package org.folio.fqm.edge.service;
 
 import lombok.RequiredArgsConstructor;
 import org.folio.fqm.edge.client.EntityTypesClient;
-import org.folio.fqm.edge.domain.dto.EntityTypeSummary;
+import org.folio.fqm.edge.domain.dto.EntityTypeSummaries;
 import org.folio.querytool.domain.dto.ColumnValues;
 import org.folio.querytool.domain.dto.EntityType;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class EntityTypesService {
 
   private final EntityTypesClient entityTypesClient;
 
-  public List<EntityTypeSummary> getEntityTypeSummary(List<UUID> ids) {
-    return entityTypesClient.getEntityTypeSummary(ids).entityTypes();
+  public EntityTypeSummaries getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible) {
+    return entityTypesClient.getEntityTypeSummary(ids, includeInaccessible);
   }
 
   public ColumnValues getColumnValues(UUID entityTypeId, String columnName, String search) {
