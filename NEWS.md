@@ -7,7 +7,7 @@
 - Fixing vulns: edge-common-spring 2.4.6, folio-spring-base 8.1.2, Spring Boot 3.2.11 ([EDGFQM-28](https://folio-org.atlassian.net/browse/EDGFQM-28))
 
 ## v2.0.2
-- bump up edge-common-spring to v2.4.5: AwsParamStore to support FIPS-approved crypto modules ([EDGFQM-22](https://folio-org.atlassian.net/browse/EDGFQM-22)
+- Bump up edge-common-spring to v2.4.5: AwsParamStore to support FIPS-approved crypto modules ([EDGFQM-22](https://folio-org.atlassian.net/browse/EDGFQM-22)
 
 ## v2.0.1
 - Add support for TLS ([EDGFQM-18](https://folio-org.atlassian.net/browse/EDGFQM-18) and [EDGFQM-19](https://folio-org.atlassian.net/browse/EDGFQM-19))
