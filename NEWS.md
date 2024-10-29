@@ -1,4 +1,16 @@
+## IN PROGRESS
+- Update dependencies to latest versions, including edge-common-spring, folio-spring-base, and Spring Boot ([EDGFQM-29](https://folio-org.atlassian.net/browse/EDGFQM-29))
+
 # v2.0.x
+
+## v2.0.3
+- Fixing vulns: edge-common-spring 2.4.6, folio-spring-base 8.1.2, Spring Boot 3.2.11 ([EDGFQM-28](https://folio-org.atlassian.net/browse/EDGFQM-28))
+
+## v2.0.2
+- Bump up edge-common-spring to v2.4.5: AwsParamStore to support FIPS-approved crypto modules ([EDGFQM-22](https://folio-org.atlassian.net/browse/EDGFQM-22)
+
+## v2.0.1
+- Add support for TLS ([EDGFQM-18](https://folio-org.atlassian.net/browse/EDGFQM-18) and [EDGFQM-19](https://folio-org.atlassian.net/browse/EDGFQM-19))
 
 ## v2.0.0
 - Fix edge-fqm response codes ([EDGFQM-14]([https://folio-org.atlassian.net/browse/EDGFQM-14]))
