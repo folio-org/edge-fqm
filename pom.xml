@@ -46,13 +46,14 @@
     <argLine />
 
     <!-- runtime dependencies -->
-    <folio-spring-base.version>8.1.2</folio-spring-base.version>
+    <folio-spring-base.version>8.2.1</folio-spring-base.version>
     <folio-query-tool-metadata.version>2.0.0</folio-query-tool-metadata.version>
     <edge-common-spring.version>2.4.6</edge-common-spring.version>
     <openapi-generator.version>6.2.1</openapi-generator.version>
     <mapstruct.version>1.5.2.Final</mapstruct.version>
     <httpclient.version>4.5.14</httpclient.version>
     <snakeyaml.version>2.0</snakeyaml.version>
+    <commons-lang3.version>3.17.0</commons-lang3.version>
 
     <!-- test dependencies -->
     <wiremock.version>3.2.0</wiremock.version>
