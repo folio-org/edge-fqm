@@ -2,6 +2,9 @@
 
 # v3.0.x
 
+## v3.0.1
+- TLS initialization fix (update folio-spring-base to 8.2.1; commons-lang3 to 3.17.0)
+
 ## v3.0.0
 - Update dependencies to latest versions, including edge-common-spring, folio-spring-base, and Spring Boot ([EDGFQM-29](https://folio-org.atlassian.net/browse/EDGFQM-29))
 - Update to support the mod-fqm-manager 3.0.0 API ([EDGFQM-24](https://folio-org.atlassian.net/browse/EDGFQM-24, [EDGFQM-25](https://folio-org.atlassian.net/browse/EDGFQM-25, [EDGFQM-26](https://folio-org.atlassian.net/browse/EDGFQM-26, [FAT-16152](https://folio-org.atlassian.net/browse/FAT-16152))
