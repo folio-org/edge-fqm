@@ -1,6 +1,7 @@
 ## IN PROGRESS
 
-# v3.0.x
+## v3.0.2
+- Update `folio-query-tool-metadata` to 3.0.2
 
 ## v3.0.1
 - TLS initialization fix (update folio-spring-base to 8.2.1; commons-lang3 to 3.17.0)
