@@ -1,3 +1,6 @@
+## v2.0.4
+- TLS initialization fix (update folio-spring-base to 8.2.1; commons-lang3 to 3.17.0) (backported from v3.0.1)
+
 ## v2.0.3
 - Fixing vulns: edge-common-spring 2.4.6, folio-spring-base 8.1.2, Spring Boot 3.2.11 ([EDGFQM-28](https://folio-org.atlassian.net/browse/EDGFQM-28))
 
