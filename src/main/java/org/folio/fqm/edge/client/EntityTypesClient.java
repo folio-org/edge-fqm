@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface EntityTypesClient {
 
   @GetMapping
-  EntityTypeSummaries getEntityTypeSummary(@RequestParam List<UUID> ids, @RequestParam Boolean includeInaccessible);
+  EntityTypeSummaries getEntityTypeSummary(@RequestParam List<UUID> ids, @RequestParam Boolean includeInaccessible, @RequestParam Boolean includeAll);
 
   @GetMapping(path = "/{entityTypeId}/columns/{columnName}/values")
   ColumnValues getColumnValues(@PathVariable UUID entityTypeId,
