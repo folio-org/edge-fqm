@@ -16,8 +16,8 @@ public class EntityTypesService {
 
   private final EntityTypesClient entityTypesClient;
 
-  public EntityTypeSummaries getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible) {
-    return entityTypesClient.getEntityTypeSummary(ids, includeInaccessible);
+  public EntityTypeSummaries getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible, Boolean includeAll) {
+    return entityTypesClient.getEntityTypeSummary(ids, includeInaccessible, includeAll);
   }
 
   public ColumnValues getColumnValues(UUID entityTypeId, String columnName, String search) {

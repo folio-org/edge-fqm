@@ -21,8 +21,8 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
   private final EntityTypesService entityTypesService;
 
   @Override
-  public ResponseEntity<EntityTypeSummaries> getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible) {
-    return ResponseEntity.ok(entityTypesService.getEntityTypeSummary(ids, includeInaccessible));
+  public ResponseEntity<EntityTypeSummaries> getEntityTypeSummary(List<UUID> ids, Boolean includeInaccessible, Boolean includeAll) {
+    return ResponseEntity.ok(entityTypesService.getEntityTypeSummary(ids, includeInaccessible, includeAll));
   }
 
   @Override
