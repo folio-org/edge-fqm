@@ -2,6 +2,9 @@
 
 # v4.0.x
 
+## v4.0.1
+- Bump folio-query-tool-metadata to 3.1.2
+
 ## v4.0.0
 - Update Edge FQM to Handle New /entity-types Endpoint Behavior (#44) ([EDGFQM-31](https://folio-org.atlassian.net/browse/EDGFQM-31))
 - Upgrade to Java 21 ([FOLIO-4236](https://folio-org.atlassian.net/browse/FOLIO-4236))
