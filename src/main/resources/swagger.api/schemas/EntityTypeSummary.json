@@ -12,6 +12,10 @@
       "description": "Entity type label",
       "type": "string"
     },
+    "isCustom": {
+      "description": "If this entity type is a custom entity type",
+      "type": "boolean"
+    },
     "crossTenantQueriesEnabled": {
       "description": "Indicates if this entity type supports cross-tenant queries",
       "type": "boolean",
@@ -23,8 +27,18 @@
       "items": {
         "type": "string"
       }
+    },
+    "createdAt": {
+      "description": "[custom only] The creation timestamp of the entity type",
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "description": "[custom only] The last update timestamp of the entity type",
+      "type": "string",
+      "format": "date-time"
     }
   },
   "additionalProperties": false,
-  "required": ["id", "label"]
+  "required": ["id", "label", "isCustom"]
 }
