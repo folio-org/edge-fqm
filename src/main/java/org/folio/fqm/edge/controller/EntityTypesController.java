@@ -7,6 +7,7 @@ import org.folio.querytool.domain.dto.ColumnValues;
 import org.folio.querytool.domain.dto.EntityType;
 import org.folio.querytool.rest.resource.EntityTypesApi;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping({"/", "/fqm"})
 public class EntityTypesController implements org.folio.fqm.edge.rest.resource.EntityTypesApi, org.folio.querytool.rest.resource.EntityTypesApi {
 
   private final EntityTypesService entityTypesService;
