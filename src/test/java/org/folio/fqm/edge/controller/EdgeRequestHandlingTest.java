@@ -124,6 +124,101 @@ class EdgeRequestHandlingTest {
     assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
   }
 
+  @Test
+  void shouldHandleRequestsWithFqmPrefix() throws Exception {
+    // Given
+    String tenant = "diku",
+      username = "diku_admin",
+      password = "admin",
+      token = "This is totally a real token. For real!",
+      query = "The best query";
+    var entityTypeId = UUID.randomUUID().toString();
+    var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
+    var responseBody = ""; // Arbitrary string. We don't care about the actual content and an empty string is easy
+    setUpMockAuthnClient(tenant, token, username, password);
+
+    // When we make a valid request to mod-fqm-manager with the API key set using the /fqm prefix
+    mockFqmServer.enqueue(new MockResponse()
+      .setResponseCode(200)
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+      .setBody(responseBody));
+    var response = mockMvc.perform(get("/fqm/query?query={query}&entityTypeId={entityTypeId}&apiKey={apiKey}", query, entityTypeId, apiKey)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse();
+
+    // Then the outgoing response from the edge API should contain the Okapi auth headers and the response body should
+    // match mod-fqm-manager's response
+    var headers = mockFqmServer.takeRequest().getHeaders();
+    assertThat(headers.get(XOkapiHeaders.TENANT)).isEqualTo(tenant);
+    assertThat(headers.get(XOkapiHeaders.TOKEN)).isEqualTo(token);
+    assertThat(headers.get(XOkapiHeaders.USER_ID)).isNull();
+    assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
+    assertThat(response.getContentAsString()).isEqualTo(responseBody);
+  }
+
+  @Test
+  void shouldHandleEntityTypesEndpoint() throws Exception {
+    // Given
+    String tenant = "diku",
+      username = "diku_admin",
+      password = "admin",
+      token = "This is totally a real token. For real!";
+    var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
+    var responseBody = "{}"; // Arbitrary entity types response
+    setUpMockAuthnClient(tenant, token, username, password);
+
+    // When we make a valid request to /entity-types with the API key set
+    mockFqmServer.enqueue(new MockResponse()
+      .setResponseCode(200)
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+      .setBody(responseBody));
+    var response = mockMvc.perform(get("/entity-types?apiKey={apiKey}", apiKey)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse();
+
+    // Then the outgoing response from the edge API should contain the Okapi auth headers and the response body should
+    // match mod-fqm-manager's response
+    var headers = mockFqmServer.takeRequest().getHeaders();
+    assertThat(headers.get(XOkapiHeaders.TENANT)).isEqualTo(tenant);
+    assertThat(headers.get(XOkapiHeaders.TOKEN)).isEqualTo(token);
+    assertThat(headers.get(XOkapiHeaders.USER_ID)).isNull();
+    assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void shouldHandleEntityTypesEndpointWithFqmPrefix() throws Exception {
+    // Given
+    String tenant = "diku",
+      username = "diku_admin",
+      password = "admin",
+      token = "This is totally a real token. For real!";
+    var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
+    var responseBody = "{}"; // Arbitrary entity types response
+    setUpMockAuthnClient(tenant, token, username, password);
+
+    // When we make a valid request to /fqm/entity-types with the API key set
+    mockFqmServer.enqueue(new MockResponse()
+      .setResponseCode(200)
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+      .setBody(responseBody));
+    var response = mockMvc.perform(get("/fqm/entity-types?apiKey={apiKey}", apiKey)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse();
+
+    // Then the outgoing response from the edge API should contain the Okapi auth headers and the response body should
+    // match mod-fqm-manager's response
+    var headers = mockFqmServer.takeRequest().getHeaders();
+    assertThat(headers.get(XOkapiHeaders.TENANT)).isEqualTo(tenant);
+    assertThat(headers.get(XOkapiHeaders.TOKEN)).isEqualTo(token);
+    assertThat(headers.get(XOkapiHeaders.USER_ID)).isNull();
+    assertThat(response.getHeaderNames()).noneMatch(header -> header.toLowerCase().startsWith(XOkapiHeaders.OKAPI_HEADERS_PREFIX.toLowerCase()));
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
   private void setUpMockAuthnClient(String tenant, String token, String username, String password) {
     when(systemUserService.authSystemUser(tenant, username, password))
             .thenReturn(new UserToken(token, Instant.now().plus(1, TimeUnit.HOURS.toChronoUnit())));

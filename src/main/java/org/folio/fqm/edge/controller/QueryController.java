@@ -1,9 +1,5 @@
 package org.folio.fqm.edge.controller;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.folio.fqm.edge.service.QueryService;
 import org.folio.querytool.domain.dto.ContentsRequest;
@@ -14,6 +10,7 @@ import org.folio.querytool.domain.dto.SubmitQuery;
 import org.folio.querytool.rest.resource.FqlQueryApi;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,6 +19,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping({"/", "/fqm"})
 public class QueryController implements FqlQueryApi {
 
   private final QueryService queryService;
