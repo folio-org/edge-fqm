@@ -27,8 +27,6 @@ paths:
                 $ref: '#/components/schemas/entityTypeSummaries'
         '4XX':
           $ref: '#/components/responses/badRequestResponse'
-        '500':
-          $ref: '#/components/responses/internalServerErrorResponse'
 
 components:
   parameters:
@@ -79,6 +77,3 @@ components:
   responses:
     badRequestResponse:
       description: Invalid request; see mod-fqm-manager API documentation for response details
-    internalServerErrorResponse:
-      description: When unhandled exception occurred during code execution, e.g. NullPointerException;
-        see mod-fqm-manager API documentation for response details
