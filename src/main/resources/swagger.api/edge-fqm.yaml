@@ -5,7 +5,7 @@ info:
   description: edge-fqm API
 
 servers:
-  - url: https://falcon.ci.folio.org/fqm/
+  - url: https://folio-etesting-snapshot-edge.ci.folio.org/
 
 paths:
   /entity-types:
@@ -25,7 +25,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/entityTypeSummaries'
-        '400':
+        '4XX':
           $ref: '#/components/responses/badRequestResponse'
         '500':
           $ref: '#/components/responses/internalServerErrorResponse'
@@ -65,8 +65,6 @@ components:
       schema:
         type: boolean
   schemas:
-    errorResponse:
-      $ref: schemas/errors.json
     contents:
       type: array
       items:
@@ -77,26 +75,10 @@ components:
         type: object
     entityTypeSummaries:
       $ref: schemas/EntityTypeSummaries.json
+
   responses:
     badRequestResponse:
-      description: Validation errors
-      content:
-        application/json:
-          example:
-            errors:
-              - message: Request is invalid
-                code: invalid.request
-            total_records: 1
-          schema:
-            $ref: "#/components/schemas/errorResponse"
+      description: Invalid request; see mod-fqm-manager API documentation for response details
     internalServerErrorResponse:
-      description: When unhandled exception occurred during code execution, e.g. NullPointerException
-      content:
-        application/json:
-          example:
-            errors:
-              - message: Unexpected error
-                code: unexpected.error
-            total_records: 1
-          schema:
-            $ref: "#/components/schemas/errorResponse"
+      description: When unhandled exception occurred during code execution, e.g. NullPointerException;
+        see mod-fqm-manager API documentation for response details
