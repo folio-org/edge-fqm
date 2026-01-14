@@ -1,5 +1,8 @@
 ## IN PROGRESS
 
+## v3.0.3
+- Update Netty to 4.1.130.Final and Tomcat to 10.1.50 ([EDGFQM-40](https://folio-org.atlassian.net/browse/EDGFQM-40))
+
 ## v3.0.2
 - Update `folio-query-tool-metadata` to 3.0.2
 
