@@ -47,8 +47,7 @@
 
     <!-- runtime dependencies -->
     <folio-spring-base.version>9.0.0</folio-spring-base.version>
-    <folio-query-tool-metadata.version>3.1.0</folio-query-tool-metadata.version>
-    <folio-query-tool-metadata.version>4.0.0-SNAPSHOT</folio-query-tool-metadata.version>
+    <folio-query-tool-metadata.version>3.1.2</folio-query-tool-metadata.version>
     <edge-common-spring.version>3.0.0</edge-common-spring.version>
     <openapi-generator.version>6.2.1</openapi-generator.version>
     <mapstruct.version>1.6.2</mapstruct.version>
@@ -114,7 +113,7 @@
     <dependency>
       <groupId>org.folio</groupId>
       <artifactId>folio-query-tool-metadata</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>${folio-query-tool-metadata.version}</version>
     </dependency>
 
     <dependency>
