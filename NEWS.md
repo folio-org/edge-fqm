@@ -2,6 +2,9 @@
 
 # v4.0.x
 
+## 4.0.2
+- Bump Spring Boot parent POM to 3.4.13, to fix vulns ([EDGFQM-39](https://folio-org.atlassian.net/browse/EDGFQM-39))
+
 ## v4.0.1
 - Bump folio-query-tool-metadata to 3.1.2
 
