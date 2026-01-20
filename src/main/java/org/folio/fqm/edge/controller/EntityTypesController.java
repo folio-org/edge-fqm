@@ -27,8 +27,14 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
     return ResponseEntity.ok(entityTypesService.getEntityTypeSummary(ids, includeInaccessible, includeAll));
   }
 
+  /**
+   * @deprecated Deprecated as part of MODFQMMGR-1048.
+   * Use {@link org.folio.querytool.rest.resource.EntityTypesApi#getFieldValues(UUID, String, String)} instead.
+   * Scheduled for removal in MODFQMMGR-1052.
+   */
   @Override
-  @Deprecated
+  @Deprecated(since = "4.1.0", forRemoval = false)
+  @SuppressWarnings("java:S1133")
   public ResponseEntity<ColumnValues> getColumnValues(UUID entityTypeId, String columnName, String search) {
     return ResponseEntity.ok(entityTypesService.getColumnValues(entityTypeId, columnName, search));
   }
