@@ -28,8 +28,14 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
   }
 
   @Override
+  @Deprecated
   public ResponseEntity<ColumnValues> getColumnValues(UUID entityTypeId, String columnName, String search) {
     return ResponseEntity.ok(entityTypesService.getColumnValues(entityTypeId, columnName, search));
+  }
+
+  @Override
+  public ResponseEntity<ColumnValues> getFieldValues(UUID entityTypeId, String columnName, String search) {
+    return ResponseEntity.ok(entityTypesService.getFieldValues(entityTypeId, columnName, search));
   }
 
   @Override
