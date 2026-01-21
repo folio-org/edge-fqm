@@ -23,6 +23,11 @@ public interface EntityTypesClient {
                                @PathVariable String columnName,
                                @RequestParam String search);
 
+  @GetMapping(path = "/{entityTypeId}/field-values")
+  ColumnValues getFieldValues(@PathVariable UUID entityTypeId,
+                               @RequestParam String columnName,
+                               @RequestParam String search);
+
   @GetMapping(path = "/{entityTypeId}")
   EntityType getEntityType(@PathVariable UUID entityTypeId, @RequestParam Boolean includeHidden);
 
