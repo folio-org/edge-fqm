@@ -1,6 +1,7 @@
 ## IN PROGRESS
 
 # v4.0.x
+- Add "apt upgrade" to Dockerfile, add .dockerignore
 
 ## v4.0.1
 - Bump folio-query-tool-metadata to 3.1.2
