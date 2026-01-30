@@ -40,8 +40,8 @@ public class EntityTypesController implements org.folio.fqm.edge.rest.resource.E
   }
 
   @Override
-  public ResponseEntity<ColumnValues> getFieldValues(UUID entityTypeId, String columnName, String search) {
-    return ResponseEntity.ok(entityTypesService.getFieldValues(entityTypeId, columnName, search));
+  public ResponseEntity<ColumnValues> getFieldValues(UUID entityTypeId, String fieldName, String search) {
+    return ResponseEntity.ok(entityTypesService.getFieldValues(entityTypeId, fieldName, search));
   }
 
   @Override
