@@ -40,7 +40,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info,health,env,httptrace
+        include: info,health,env,httpexchanges
       base-path: /admin
   #  endpoint:
   #    health:
