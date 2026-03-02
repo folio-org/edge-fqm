@@ -9,31 +9,49 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 class EndpointPassThroughTest {
 
+  @TestConfiguration
+  static class TestConfig {
+    @Bean
+    @Primary
+    public EntityTypesClient entityTypesClient() {
+      return mock(EntityTypesClient.class);
+    }
+
+    @Bean
+    @Primary
+    public QueryClient queryClient() {
+      return mock(QueryClient.class);
+    }
+  }
+
   @Autowired
   private EntityTypesController entityTypesController;
-  @SpyBean
+  @MockitoSpyBean
   private EntityTypesService entityTypesService;
-  @MockBean
+  @Autowired
   private EntityTypesClient entityTypesClient;
 
   @Autowired
   private QueryController queryController;
-  @SpyBean
+  @MockitoSpyBean
   private QueryService queryService;
-  @MockBean
+  @Autowired
   private QueryClient queryClient;
 
   @BeforeEach
