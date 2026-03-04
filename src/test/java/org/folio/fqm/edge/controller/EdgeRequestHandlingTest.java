@@ -3,7 +3,8 @@ package org.folio.fqm.edge.controller;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.folio.edge.core.utils.ApiKeyUtils;
-import org.folio.edgecommonspring.client.EdgeFeignClientProperties;
+//import org.folio.edgecommonspring.client.EdgeFeignClientProperties;
+import org.folio.edgecommonspring.client.EdgeClientProperties;
 import org.folio.spring.integration.XOkapiHeaders;
 import org.folio.spring.model.UserToken;
 import org.folio.spring.service.SystemUserService;
@@ -11,8 +12,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ class EdgeRequestHandlingTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private EdgeFeignClientProperties properties;
+  private EdgeClientProperties properties;
 
   @MockitoBean
   private SystemUserService systemUserService;
