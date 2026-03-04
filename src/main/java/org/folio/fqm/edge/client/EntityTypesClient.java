@@ -1,34 +1,34 @@
 package org.folio.fqm.edge.client;
 
-import org.folio.fqm.edge.client.config.OkapiFeignClientConfig;
 import org.folio.querytool.domain.dto.ColumnValues;
 import org.folio.querytool.domain.dto.EntityType;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.folio.fqm.edge.domain.dto.EntityTypeSummaries;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
 
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "entity-types", configuration = OkapiFeignClientConfig.class)
+@HttpExchange(url = "entity-types", contentType = MediaType.APPLICATION_JSON_VALUE, accept = MediaType.APPLICATION_JSON_VALUE)
 public interface EntityTypesClient {
 
-  @GetMapping
-  EntityTypeSummaries getEntityTypeSummary(@RequestParam List<UUID> ids, @RequestParam Boolean includeInaccessible, @RequestParam Boolean includeAll);
+  @GetExchange
+  EntityTypeSummaries getEntityTypeSummary(@RequestParam(required = false) List<UUID> ids, @RequestParam(required = false) Boolean includeInaccessible, @RequestParam(required = false) Boolean includeAll);
 
-  @GetMapping(path = "/{entityTypeId}/columns/{columnName}/values")
+  @GetExchange(url = "/{entityTypeId}/columns/{columnName}/values")
   ColumnValues getColumnValues(@PathVariable UUID entityTypeId,
                                @PathVariable String columnName,
-                               @RequestParam String search);
+                               @RequestParam(required = false) String search);
 
-  @GetMapping(path = "/{entityTypeId}/field-values")
+  @GetExchange(url = "/{entityTypeId}/field-values")
   ColumnValues getFieldValues(@PathVariable UUID entityTypeId,
                                @RequestParam("field") String fieldName,
-                               @RequestParam("search") String search);
+                               @RequestParam(value = "search", required = false) String search);
 
-  @GetMapping(path = "/{entityTypeId}")
-  EntityType getEntityType(@PathVariable UUID entityTypeId, @RequestParam Boolean includeHidden);
+  @GetExchange(url = "/{entityTypeId}")
+  EntityType getEntityType(@PathVariable UUID entityTypeId, @RequestParam(required = false) Boolean includeHidden);
 
 }

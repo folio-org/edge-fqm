@@ -18,6 +18,12 @@ spring:
   mustache:
     check-template-location: false
 folio:
+  exchange:
+    enabled: true
+  logging:
+    exchange:
+      enabled: true
+      level: BASIC
   tenant:
     validation:
       enabled: false
@@ -40,7 +46,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info,health,env,httptrace
+        include: info,health,env,httpexchanges
       base-path: /admin
   #  endpoint:
   #    health:

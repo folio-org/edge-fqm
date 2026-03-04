@@ -6,6 +6,8 @@ spring:
   liquibase:
     enabled: false
 folio:
+  exchange:
+    enabled: true
   tenant:
     validation:
       enabled: false
