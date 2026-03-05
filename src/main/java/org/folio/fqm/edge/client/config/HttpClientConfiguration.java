@@ -60,7 +60,7 @@ public class HttpClientConfiguration {
       }
       URI resolved = URI.create(baseUrl).resolve(original.getRawPath()
           + (original.getRawQuery() != null ? "?" + original.getRawQuery() : ""));
-      log.debug("Base URL interceptor: {} -> {}", original, resolved);
+      log.warn("Base URL interceptor: {} -> {}", original, resolved);
       HttpRequest wrapped = new HttpRequestWrapper(request) {
         @Override
         public URI getURI() {
@@ -88,14 +88,14 @@ public class HttpClientConfiguration {
           addHeaderIfPresent(headers, XOkapiHeaders.TOKEN, context.getToken());
           String userId = context.getUserId() != null ? context.getUserId().toString() : null;
           addHeaderIfPresent(headers, XOkapiHeaders.USER_ID, userId);
-          log.debug("Primary factory headers: tenant={}, token={}, userId={}",
-              context.getTenantId(),
-              context.getToken() != null ? context.getToken().substring(0, Math.min(10, context.getToken().length())) + "..." : "null",
-              userId);
         }
       } catch (Exception e) {
-        log.debug("No FolioExecutionContext available, skipping header enrichment");
+        log.warn("No FolioExecutionContext available for request {} {}, skipping header enrichment",
+            request.getMethod(), request.getURI());
       }
+      // Log all outgoing headers for debugging (temporary)
+      log.warn("Primary factory outgoing request: {} {}, headers: {}",
+          request.getMethod(), request.getURI(), request.getHeaders().keySet());
       return execution.execute(request, body);
     };
   }
