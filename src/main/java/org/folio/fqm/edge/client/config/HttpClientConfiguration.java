@@ -162,7 +162,7 @@ public class HttpClientConfiguration {
   }
 
   private static void addHeaderIfPresent(HttpHeaders headers, String name, String value) {
-    if (value != null) {
+    if (value != null && !value.isEmpty()) {
       headers.add(name, value);
     }
   }
