@@ -4,9 +4,11 @@ import org.folio.fqm.edge.client.EntityTypesClient;
 import org.folio.fqm.edge.client.QueryClient;
 import org.folio.edgecommonspring.client.EdgeClientProperties;
 import org.folio.spring.DefaultFolioExecutionContext;
+import org.folio.spring.FolioExecutionContext;
 import org.folio.spring.FolioModuleMetadata;
 import org.folio.spring.integration.XOkapiHeaders;
 import org.folio.spring.utils.RequestUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,16 +72,48 @@ public class HttpClientConfiguration {
   }
 
   /**
-   * Primary HttpServiceProxyFactory that includes the Okapi base URL from EdgeClientProperties.
+   * Creates an interceptor that propagates Okapi headers from FolioExecutionContext when available.
+   * This is needed for the primary factory so that folio-spring-base's authnClient gets the
+   * x-okapi-tenant header during the login flow (SystemUserService sets up a FolioExecutionContext
+   * with the tenant before calling loginWithExpiry).
+   */
+  private static ClientHttpRequestInterceptor createContextHeadersInterceptor(
+      ObjectProvider<FolioExecutionContext> contextProvider) {
+    return (request, body, execution) -> {
+      try {
+        FolioExecutionContext context = contextProvider.getIfAvailable();
+        if (context != null) {
+          HttpHeaders headers = request.getHeaders();
+          addHeaderIfPresent(headers, XOkapiHeaders.TENANT, context.getTenantId());
+          addHeaderIfPresent(headers, XOkapiHeaders.TOKEN, context.getToken());
+          String userId = context.getUserId() != null ? context.getUserId().toString() : null;
+          addHeaderIfPresent(headers, XOkapiHeaders.USER_ID, userId);
+          log.debug("Primary factory headers: tenant={}, token={}, userId={}",
+              context.getTenantId(),
+              context.getToken() != null ? context.getToken().substring(0, Math.min(10, context.getToken().length())) + "..." : "null",
+              userId);
+        }
+      } catch (Exception e) {
+        log.debug("No FolioExecutionContext available, skipping header enrichment");
+      }
+      return execution.execute(request, body);
+    };
+  }
+
+  /**
+   * Primary HttpServiceProxyFactory that includes the Okapi base URL from EdgeClientProperties
+   * and propagates Okapi headers from FolioExecutionContext when available.
    * This is used by all beans that inject an unqualified HttpServiceProxyFactory, including
-   * folio-spring-base's {@code authnClient} (called during EdgeSecurityFilter before
-   * FolioExecutionContext is available).
+   * folio-spring-base's {@code authnClient} (called during EdgeSecurityFilter).
    */
   @Bean
   @Primary
-  public HttpServiceProxyFactory primaryHttpServiceProxyFactory(EdgeClientProperties edgeClientProperties) {
+  public HttpServiceProxyFactory primaryHttpServiceProxyFactory(
+      EdgeClientProperties edgeClientProperties,
+      ObjectProvider<FolioExecutionContext> contextProvider) {
     RestClient restClient = RestClient.builder()
         .requestInterceptor(createBaseUrlInterceptor(edgeClientProperties))
+        .requestInterceptor(createContextHeadersInterceptor(contextProvider))
         .build();
     return HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
   }
