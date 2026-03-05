@@ -23,7 +23,7 @@ folio:
   logging:
     exchange:
       enabled: true
-      level: HEADERS
+      level: BASIC
   tenant:
     validation:
       enabled: false
@@ -60,4 +60,4 @@ management:
       enabled: false
     readinessstate:
       enabled: true
-debug: true
+debug: false
