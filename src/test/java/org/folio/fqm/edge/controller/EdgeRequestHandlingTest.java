@@ -3,7 +3,6 @@ package org.folio.fqm.edge.controller;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.folio.edge.core.utils.ApiKeyUtils;
-//import org.folio.edgecommonspring.client.EdgeFeignClientProperties;
 import org.folio.edgecommonspring.client.EdgeClientProperties;
 import org.folio.spring.integration.XOkapiHeaders;
 import org.folio.spring.model.UserToken;
