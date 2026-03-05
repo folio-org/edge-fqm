@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * This class handles those, converting them into {@link ResponseEntity} objects that get returned
  * to the original caller, while filtering headers to only pass through safe ones.
  * <p>
- * Note: This intentionally does NOT extend {@code ResponseEntityExceptionHandler} because in
+ * Note: This intentionally does not extend {@code ResponseEntityExceptionHandler} because in
  * Spring Framework 7.0+, that class has built-in handling for {@code ErrorResponse} exceptions
  * (which {@code HttpStatusCodeException} implements), which can conflict with our custom handler.
  */
