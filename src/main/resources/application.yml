@@ -23,7 +23,7 @@ folio:
   logging:
     exchange:
       enabled: true
-      level: DEBUG
+      level: BASIC
   tenant:
     validation:
       enabled: false

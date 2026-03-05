@@ -94,8 +94,9 @@ public class HttpClientConfiguration {
             request.getMethod(), request.getURI());
       }
       // Log all outgoing headers for debugging (temporary)
+      HttpHeaders outHeaders = request.getHeaders();
       log.warn("Primary factory outgoing request: {} {}, headers: {}",
-          request.getMethod(), request.getURI(), request.getHeaders().keySet());
+          request.getMethod(), request.getURI(), outHeaders.toSingleValueMap());
       return execution.execute(request, body);
     };
   }
