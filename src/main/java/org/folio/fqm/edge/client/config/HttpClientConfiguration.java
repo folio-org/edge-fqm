@@ -26,36 +26,68 @@ import lombok.extern.log4j.Log4j2;
 /**
  * Configuration class to register HTTP service clients for this edge module.
  *
- * <p>Builds a custom {@link RestClient} with an interceptor that propagates Okapi headers
- * (tenant, token, user-id) from the incoming request to outgoing HTTP service client calls,
- * and dynamically resolves the base URL from {@link EdgeClientProperties} at request time.
- * This replaces the old Feign-based {@code OkapiFeignClientConfig}.
+ * <p>In an edge module, the base URL for all outgoing requests to Okapi comes from
+ * {@link EdgeClientProperties#getOkapiUrl()}. The standard {@code httpServiceProxyFactory}
+ * from folio-spring-base relies on {@code FolioExecutionContext} for the base URL, but that
+ * context is not available during the {@code EdgeSecurityFilter} phase (when {@code authnClient}
+ * is called to authenticate the system user).
  *
- * <p>There are multiple {@link HttpServiceProxyFactory} beans in the context:
+ * <p>This configuration provides:
  * <ul>
- *   <li>{@code httpServiceProxyFactory} - from folio-spring-base, used by internal clients like {@code authnClient}</li>
- *   <li>{@code edgeHttpServiceProxyFactory} - from edge-common-spring</li>
- *   <li>{@code fqmHttpServiceProxyFactory} - defined here, used by this module's clients</li>
+ *   <li>A {@code @Primary} factory with the base URL from {@code EdgeClientProperties} so that
+ *       all beans (including {@code authnClient}) can resolve the Okapi URL.</li>
+ *   <li>A separate {@code fqmHttpServiceProxyFactory} for this module's clients that also adds
+ *       Okapi header propagation (tenant, token, user-id) from the incoming request.</li>
  * </ul>
- * We mark {@code httpServiceProxyFactory} as {@code @Primary} so that folio-spring-base's internal
- * beans resolve correctly, and explicitly wire our module's clients to {@code fqmHttpServiceProxyFactory}.
  */
 @Configuration
 @Log4j2
 public class HttpClientConfiguration {
 
   /**
-   * Marks the folio-spring-base {@code httpServiceProxyFactory} as primary so that internal
-   * beans like {@code authnClient} (which inject an unqualified HttpServiceProxyFactory)
-   * resolve correctly to the standard folio factory, not the edge-specific one.
+   * A base URL interceptor that prepends the Okapi URL from {@link EdgeClientProperties} to all
+   * outgoing requests. The URL is resolved lazily at request time so tests can change it dynamically.
+   */
+  private static ClientHttpRequestInterceptor createBaseUrlInterceptor(EdgeClientProperties edgeClientProperties) {
+    return (request, body, execution) -> {
+      String baseUrl = edgeClientProperties.getOkapiUrl();
+      URI original = request.getURI();
+      // Only prepend the base URL if the request URI doesn't already have a host
+      if (original.getHost() != null) {
+        return execution.execute(request, body);
+      }
+      URI resolved = URI.create(baseUrl).resolve(original.getRawPath()
+          + (original.getRawQuery() != null ? "?" + original.getRawQuery() : ""));
+      log.debug("Base URL interceptor: {} -> {}", original, resolved);
+      HttpRequest wrapped = new HttpRequestWrapper(request) {
+        @Override
+        public URI getURI() {
+          return resolved;
+        }
+      };
+      return execution.execute(wrapped, body);
+    };
+  }
+
+  /**
+   * Primary HttpServiceProxyFactory that includes the Okapi base URL from EdgeClientProperties.
+   * This is used by all beans that inject an unqualified HttpServiceProxyFactory, including
+   * folio-spring-base's {@code authnClient} (called during EdgeSecurityFilter before
+   * FolioExecutionContext is available).
    */
   @Bean
   @Primary
-  public HttpServiceProxyFactory primaryHttpServiceProxyFactory(
-      @Qualifier("httpServiceProxyFactory") HttpServiceProxyFactory factory) {
-    return factory;
+  public HttpServiceProxyFactory primaryHttpServiceProxyFactory(EdgeClientProperties edgeClientProperties) {
+    RestClient restClient = RestClient.builder()
+        .requestInterceptor(createBaseUrlInterceptor(edgeClientProperties))
+        .build();
+    return HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
   }
 
+  /**
+   * HttpServiceProxyFactory for this module's FQM clients. Includes both the base URL interceptor
+   * and Okapi header propagation (tenant, token, user-id) from the incoming HTTP request.
+   */
   @Bean
   public HttpServiceProxyFactory fqmHttpServiceProxyFactory(
       EdgeClientProperties edgeClientProperties,
@@ -68,7 +100,7 @@ public class HttpClientConfiguration {
       addHeaderIfPresent(headers, XOkapiHeaders.TOKEN, context.getToken());
       String userId = context.getUserId() != null ? context.getUserId().toString() : null;
       addHeaderIfPresent(headers, XOkapiHeaders.USER_ID, userId);
-      log.debug("Outgoing request: {} {}, tenant={}, token={}, userId={}",
+      log.debug("FQM client request: {} {}, tenant={}, token={}, userId={}",
           request.getMethod(), request.getURI(),
           context.getTenantId(),
           context.getToken() != null ? context.getToken().substring(0, Math.min(10, context.getToken().length())) + "..." : "null",
@@ -76,23 +108,8 @@ public class HttpClientConfiguration {
       return execution.execute(request, body);
     };
 
-    ClientHttpRequestInterceptor baseUrlInterceptor = (request, body, execution) -> {
-      String baseUrl = edgeClientProperties.getOkapiUrl();
-      URI original = request.getURI();
-      URI resolved = URI.create(baseUrl).resolve(original.getRawPath()
-          + (original.getRawQuery() != null ? "?" + original.getRawQuery() : ""));
-      log.debug("Base URL interceptor: {} -> {}", original, resolved);
-      HttpRequest wrapped = new HttpRequestWrapper(request) {
-        @Override
-        public URI getURI() {
-          return resolved;
-        }
-      };
-      return execution.execute(wrapped, body);
-    };
-
     RestClient restClient = RestClient.builder()
-        .requestInterceptor(baseUrlInterceptor)
+        .requestInterceptor(createBaseUrlInterceptor(edgeClientProperties))
         .requestInterceptor(okapiHeadersInterceptor)
         .build();
 
