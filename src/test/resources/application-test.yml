@@ -6,12 +6,6 @@ spring:
   liquibase:
     enabled: false
 folio:
-  exchange:
-    enabled: false # edge-common-spring provides its own HttpServiceProxyFactory (edgeHttpServiceProxyFactory)
-  logging:
-    exchange:
-      enabled: true
-      level: BASIC
   tenant:
     validation:
       enabled: false

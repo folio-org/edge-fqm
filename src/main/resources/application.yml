@@ -18,12 +18,6 @@ spring:
   mustache:
     check-template-location: false
 folio:
-  exchange:
-    enabled: false # edge-common-spring provides its own HttpServiceProxyFactory (edgeHttpServiceProxyFactory)
-  logging:
-    exchange:
-      enabled: true
-      level: BASIC
   tenant:
     validation:
       enabled: false
@@ -46,7 +40,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info,health,env,httpexchanges
+        include: info,health,env,httptrace
       base-path: /admin
   #  endpoint:
   #    health:
