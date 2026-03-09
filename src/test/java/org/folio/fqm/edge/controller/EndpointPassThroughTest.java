@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
@@ -24,16 +24,16 @@ class EndpointPassThroughTest {
 
   @Autowired
   private EntityTypesController entityTypesController;
-  @MockitoSpyBean
+  @SpyBean
   private EntityTypesService entityTypesService;
-  @MockitoBean
+  @MockBean
   private EntityTypesClient entityTypesClient;
 
   @Autowired
   private QueryController queryController;
-  @MockitoSpyBean
+  @SpyBean
   private QueryService queryService;
-  @MockitoBean
+  @MockBean
   private QueryClient queryClient;
 
   @BeforeEach
