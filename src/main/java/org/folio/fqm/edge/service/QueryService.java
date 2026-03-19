@@ -20,8 +20,8 @@ public class QueryService {
 
   private final QueryClient queryClient;
 
-  public ResultsetPage runFqlQuery(@NotNull String query, @NotNull UUID entityTypeId, List<String> fields, List<String> afterId, Integer limit) {
-    return queryClient.runFqlQuery(query, entityTypeId, fields, afterId, limit);
+  public ResultsetPage runFqlQuery(@NotNull String query, @NotNull UUID entityTypeId, List<String> fields, Integer limit) {
+    return queryClient.runFqlQuery(query, entityTypeId, fields, limit);
   }
 
   public void deleteQuery(UUID queryId) {
