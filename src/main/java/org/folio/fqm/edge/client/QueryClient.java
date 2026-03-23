@@ -23,7 +23,6 @@ public interface QueryClient {
   ResultsetPage runFqlQuery(@RequestParam @NotNull String query,
                             @RequestParam @NotNull UUID entityTypeId,
                             @RequestParam(required = false) List<String> fields,
-                            @RequestParam(required = false) List<String> afterId,
                             @RequestParam(required = false) Integer limit);
 
   @DeleteExchange(url = "/{queryId}")
