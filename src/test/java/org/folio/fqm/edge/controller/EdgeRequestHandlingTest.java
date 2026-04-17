@@ -92,6 +92,31 @@ class EdgeRequestHandlingTest {
   }
 
   @Test
+  void shouldNotUsePathPrefixOnRequestToModFqm() throws Exception {
+    // Given
+    String tenant = "diku",
+      username = "diku_admin",
+      password = "admin",
+      token = "This is totally a real token. For real!";
+    var apiKey = ApiKeyUtils.generateApiKey(10, tenant, username);
+    var responseBody = ""; // Arbitrary string. We don't care about the actual content and an empty string is easy
+    setUpMockAuthnClient(tenant, token, username, password);
+
+    // When we make a valid request to mod-fqm-manager, with the API key set, with the /fqm prefix
+    mockFqmServer.enqueue(new MockResponse()
+      .setResponseCode(200)
+      .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+      .setBody(responseBody));
+    mockMvc.perform(get("/fqm/entity-types?apiKey={apiKey}", apiKey)
+        .contentType(MediaType.APPLICATION_JSON))
+      .andReturn()
+      .getResponse();
+
+    // Then the outgoing response from the edge API should not have the /fqm prefix
+    assertThat(mockFqmServer.takeRequest().getPath()).startsWith("/entity-types");
+  }
+
+  @Test
   void shouldReturnClientErrors() throws Exception {
     // Given
     String tenant = "diku",
