@@ -1,4 +1,14 @@
-## IN PROGRESS
+## v4.1.1
+- Switch from folio-spring-support 10.0.0-RC1 to 10.0.0
+
+## v4.1.0
+- Upgrade to Spring Boot 4.0 and Spring Framework 7.0 ([EDGFQM-38](https://folio-org.atlassian.net/browse/EDGFQM-38))
+- Add `/fqm` as an extra path prefix for all APIs ([EDGFQM-37](https://folio-org.atlassian.net/browse/EDGFQM-37))
+- Add `/entity-types/{entityTypeId}/field-values` API and fix request parameter handling ([MODFQMMGR-1048](https://folio-org.atlassian.net/browse/MODFQMMGR-1048))
+- Add `isCustom`, `createdAt`, and `updatedAt` to entity type summaries ([MODFQMMGR-975](https://folio-org.atlassian.net/browse/MODFQMMGR-975))
+- Standardize API error responses and remove `500` responses from API docs ([MODFQMMGR-1045](https://folio-org.atlassian.net/browse/MODFQMMGR-1045))
+- Remove `afterId` parameter from the synchronous query endpoint ([MODFQMMGR-763](https://folio-org.atlassian.net/browse/MODFQMMGR-763))
+- Update CI/release automation and container build maintenance (Dependabot, centralized Maven workflows, `apk upgrade`, Docker env var syntax)
 
 # v4.0.x
 - Add "apt upgrade" to Dockerfile, add .dockerignore
