@@ -43,7 +43,7 @@
     <argLine />
 
     <!-- runtime dependencies -->
-    <folio-spring-base.version>10.0.0-RC1</folio-spring-base.version>
+    <folio-spring-base.version>10.0.0</folio-spring-base.version>
     <folio-query-tool-metadata.version>4.0.0-SNAPSHOT</folio-query-tool-metadata.version>
     <edge-common-spring.version>4.0.0-SNAPSHOT</edge-common-spring.version>
     <openapi-generator.version>7.20.0</openapi-generator.version>
