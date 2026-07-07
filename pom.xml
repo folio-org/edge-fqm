@@ -52,7 +52,7 @@
     <!-- test dependencies -->
     <wiremock.version>3.13.1</wiremock.version>
     <testcontainers.version>1.21.3</testcontainers.version>
-    <edge-common.version>4.9.0</edge-common.version>
+    <edge-common.version>5.1.1</edge-common.version>
     <mockwebserver.version>4.12.0</mockwebserver.version>
     <jfixture.version>2.7.2</jfixture.version>
 
