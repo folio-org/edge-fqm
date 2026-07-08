@@ -1,3 +1,6 @@
+## v4.1.2
+- Upgrade edge-common from 4.9.0 to 5.1.1 to fix TLS issues ([EDGFQM-49](https://folio-org.atlassian.net/browse/EDGFQM-49))
+
 ## v4.1.1
 - Switch from folio-spring-support 10.0.0-RC1 to 10.0.0
 
