@@ -1,3 +1,6 @@
+## v4.2.0
+- Upgrade edge-common-spring from 4.0.0 to 4.0.1 to fix HTTP cookie handling ([EDGFQM-50](https://folio-org.atlassian.net/browse/EDGFQM-50))
+
 ## v4.1.2
 - Upgrade edge-common from 4.9.0 to 5.1.1 to fix TLS issues ([EDGFQM-49](https://folio-org.atlassian.net/browse/EDGFQM-49))
 
