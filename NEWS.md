@@ -1,3 +1,6 @@
+## v4.2.0
+- Upgrade edge-common-spring from 4.0.1 to 4.0.2 to fix multiple security vulnerabilities in tomcat, jackson, netty, log4j, and spring boot ([EDGFQM-48](https://folio-org.atlassian.net/browse/EDGFQM-48))
+
 ## v4.1.3
 - Upgrade edge-common-spring from 4.0.0 to 4.0.1 to fix HTTP cookie handling ([EDGFQM-50](https://folio-org.atlassian.net/browse/EDGFQM-50))
 
