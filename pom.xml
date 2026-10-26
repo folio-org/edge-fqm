@@ -46,19 +46,19 @@
     <folio-spring-base.version>10.0.0</folio-spring-base.version>
     <folio-query-tool-metadata.version>4.0.0</folio-query-tool-metadata.version>
     <edge-common-spring.version>4.0.2</edge-common-spring.version>
-    <openapi-generator.version>7.20.0</openapi-generator.version>
+    <openapi-generator.version>7.26.0</openapi-generator.version>
     <mapstruct.version>1.6.3</mapstruct.version>
 
     <!-- test dependencies -->
-    <wiremock.version>3.13.1</wiremock.version>
-    <testcontainers.version>1.21.3</testcontainers.version>
+    <wiremock.version>3.13.2</wiremock.version>
+    <testcontainers.version>1.21.4</testcontainers.version>
     <edge-common.version>5.1.1</edge-common.version>
-    <mockwebserver.version>4.12.0</mockwebserver.version>
+    <mockwebserver.version>5.5.1</mockwebserver.version>
     <jfixture.version>2.7.2</jfixture.version>
 
     <!-- plugin versions -->
     <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
-    <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
   </properties>
 
   <dependencies>
@@ -245,7 +245,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.6.2</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
@@ -332,7 +332,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.6.3</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
