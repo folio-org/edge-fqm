@@ -1,0 +1,260 @@
+{
+  "description": "edge-fqm configuration template",
+  "moduleDefaults": {
+    "resources": [
+      {
+        "name": "cpu",
+        "value": "64",
+        "description": "CPU request/limit for container"
+      },
+      {
+        "name": "memory",
+        "value": "1024",
+        "description": "Memory hard limit for container"
+      },
+      {
+        "name": "memoryReservation",
+        "value": "896",
+        "description": "Memory reservation for container"
+      }
+    ],
+    "java": [
+      {
+        "name": "xmx",
+        "value": "768m",
+        "description": "Maximum Java heap size"
+      },
+      {
+        "name": "MaxMetaspaceSize",
+        "value": "128m",
+        "description": "Maximum Java metaspace size"
+      },
+      {
+        "name": "MetaspaceSize",
+        "value": "88m",
+        "description": "Initial Java metaspace size"
+      }
+    ],
+    "deployment": {
+      "isHaSupported": true,
+      "replicasRecommendedCount": 2,
+      "description": "Deployment configuration for the edge module. Adjust replicas based on expected load and HA requirements. Set to false if only single instance is supported or required."
+    },
+    "kong": {
+      "timeouts": {
+        "connect": "60s",
+        "send": "60s",
+        "read": "60s"
+      },
+      "description": "Custom Kong proxy timeouts. Use this only if different from default Kong configuration"
+    },
+    "EnvVars": [
+      {
+        "name": "JAVA_OPTIONS",
+        "value": null,
+        "description": "Java options used by the module launch descriptor (default: -XX:MaxRAMPercentage=66.0)",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "secure_store",
+        "value": "Ephemeral",
+        "description": "Type of secure store for edge API keys: Ephemeral, AwsSsm or Vault",
+        "type": "FUNCTIONAL",
+        "essential": true
+      },
+      {
+        "name": "secure_store_props",
+        "value": "src/main/resources/ephemeral.properties",
+        "description": "Path to a properties file with secure store configuration",
+        "type": "FUNCTIONAL",
+        "essential": true
+      },
+      {
+        "name": "FOLIO_CLIENT_OKAPIURL",
+        "value": "http://okapi:9130",
+        "description": "Okapi/Kong url (relaxed binding of folio.client.okapiUrl, replaces deprecated okapi_url).",
+        "type": "FUNCTIONAL",
+        "essential": false
+      },
+      {
+        "name": "SERVER_PORT",
+        "value": "8081",
+        "description": "Server port to listen on. Use 8443 when TLS for HTTP endpoints is enabled",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SERVER_SSL_BUNDLE",
+        "value": null,
+        "description": "SSL bundle used to configure TLS for HTTP endpoints, for example web-server",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SPRING_SSL_BUNDLE_JKS_WEBSERVER_KEY_ALIAS",
+        "value": null,
+        "description": "Alias of the key within the keystore for HTTP endpoints TLS",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SPRING_SSL_BUNDLE_JKS_WEBSERVER_KEY_PASSWORD",
+        "value": null,
+        "description": "Password for the private key in the keystore for HTTP endpoints TLS",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SPRING_SSL_BUNDLE_JKS_WEBSERVER_KEYSTORE_LOCATION",
+        "value": null,
+        "description": "Location of the keystore file for HTTP endpoints TLS",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SPRING_SSL_BUNDLE_JKS_WEBSERVER_KEYSTORE_PASSWORD",
+        "value": null,
+        "description": "Password for the keystore for HTTP endpoints TLS",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "SPRING_SSL_BUNDLE_JKS_WEBSERVER_KEYSTORE_TYPE",
+        "value": null,
+        "description": "Type of the keystore for HTTP endpoints TLS: JKS, PKCS12 or BCFKS",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "FOLIO_CLIENT_TLS_ENABLED",
+        "value": null,
+        "description": "Enables or disables TLS for HTTP clients calling Okapi/Kong. Default: false",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "FOLIO_CLIENT_TLS_TRUSTSTOREPATH",
+        "value": null,
+        "description": "Location of the trust store file for HTTP clients. Can be omitted if the server provides a public certificate",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "FOLIO_CLIENT_TLS_TRUSTSTOREPASSWORD",
+        "value": null,
+        "description": "Password for the trust store for HTTP clients. Can be omitted if the server provides a public certificate",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "FOLIO_CLIENT_TLS_TRUSTSTORETYPE",
+        "value": null,
+        "description": "Type of the trust store for HTTP clients: JKS, PKCS12 or BCFKS. Can be omitted if the server provides a public certificate",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "AWS_REGION",
+        "value": null,
+        "description": "AWS region used by the AWS SDK when secure_store=AwsSsm",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "AWS_MAX_ATTEMPTS",
+        "value": "10",
+        "description": "Maximum number of attempts for AWS SDK requests (AWS SSM secure store)",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "AWS_RETRY_MODE",
+        "value": "standard",
+        "description": "Retry mode of the AWS SDK (AWS SSM secure store)",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "LOG4J_CONFIGURATION_FILE",
+        "value": null,
+        "description": "Location of the Log4j2 configuration file",
+        "type": "CONFIG",
+        "essential": false
+      }
+    ]
+  },
+  "sidecarDefaults": {
+    "resources": [
+      {
+        "name": "cpu",
+        "value": "64",
+        "description": "CPU request/limit for container"
+      },
+      {
+        "name": "memory",
+        "value": "1024",
+        "description": "Memory hard limit for container"
+      },
+      {
+        "name": "memoryReservation",
+        "value": "512",
+        "description": "Memory reservation for container"
+      }
+    ],
+    "java": [
+      {
+        "name": "xms",
+        "value": "128m",
+        "description": "Initial Java heap size"
+      },
+      {
+        "name": "xmx",
+        "value": "256m",
+        "description": "Maximum Java heap size"
+      },
+      {
+        "name": "MaxMetaspaceSize",
+        "value": "96m",
+        "description": "Maximum Java metaspace size"
+      }
+    ],
+    "EnvVars": [
+      {
+        "name": "ENV",
+        "value": null,
+        "description": "Environment",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "JAVA_OPTS",
+        "value": null,
+        "description": "Additional JVM options for the sidecar process",
+        "type": "CONFIG",
+        "essential": false
+      },
+      {
+        "name": "MODULE_NAME",
+        "value": "edge-fqm",
+        "description": "Name of the backend module the sidecar fronts",
+        "type": "CONFIG",
+        "essential": true
+      },
+      {
+        "name": "MODULE_URL",
+        "value": null,
+        "description": "Internal URL (host:port) at which the edge-fqm backend container is reachable from its sidecar",
+        "type": "CONFIG",
+        "essential": true
+      },
+      {
+        "name": "MODULE_VERSION",
+        "value": null,
+        "description": "Version of the edge-fqm module deployed alongside this sidecar",
+        "type": "CONFIG",
+        "essential": true
+      }
+    ]
+  }
+}
