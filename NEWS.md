@@ -1,3 +1,7 @@
+## v4.1.5
+- Upgrade module to Spring Boot 4.1.1 ([EDGFQM-55](https://folio-org.atlassian.net/browse/EDGFQM-55))
+- Add DeployConfig.json file ([EDGFQM-52](https://folio-org.atlassian.net/browse/EDGFQM-52))
+
 ## v4.1.4
 - Upgrade edge-common-spring from 4.0.1 to 4.0.2 to fix multiple security vulnerabilities in tomcat, jackson, netty, log4j, and spring boot ([EDGFQM-48](https://folio-org.atlassian.net/browse/EDGFQM-48))
 
